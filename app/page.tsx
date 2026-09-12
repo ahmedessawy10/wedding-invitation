@@ -1,7 +1,9 @@
 "use client"
 
 import { useState } from "react"
+import useSWR from "swr"
 import { CalendarDays, ChevronDown, ChevronLeft, ChevronRight, Gift, Heart, MapPin, Music2, Send, Volume2, VolumeX } from "lucide-react"
+import { getSupabase } from "../lib/supabase/client"
 
 const guests = [
   { name: "نورة السالم", note: "ربينا يتم لكم على خير ويسعد قلوبكم." },
@@ -16,6 +18,7 @@ export default function Home() {
 export function InvitationContent() {
   const [muted, setMuted] = useState(true)
   const [message, setMessage] = useState("")
+  const [name, setName] = useState("")
   const [sent, setSent] = useState(false)
 
   return <main className="min-h-screen overflow-hidden bg-[#b78243] text-[#7f572d]"><div className="invite-shell animate-reveal">
@@ -23,7 +26,15 @@ export function InvitationContent() {
       {muted ? <VolumeX size={18} /> : <Volume2 size={18} />}
     </button>
     <Hero /><Couple /><EventDetails /><Gallery /><Venue /><DressCode /><Timeline />
-    <Guestbook message={message} setMessage={setMessage} sent={sent} onSend={() => { if (message.trim()) setSent(true) }} />
+    <Guestbook name={name} setName={setName} message={message} setMessage={setMessage} sent={sent} onSend={async () => {
+      const cleanName = name.trim()
+      const cleanMessage = message.trim()
+      if (!cleanName || !cleanMessage) return
+      const client = getSupabase()
+      if (!client) return
+      const { error } = await client.from("wedding_guestbook").insert({ name: cleanName, message: cleanMessage })
+      if (!error) { setSent(true); setName(""); setMessage("") }
+    }} />
     <GiftSection /><footer className="footer">صُنع بحب من أجل يوم لا يُنسى <Heart size={13} fill="currentColor" /></footer>
   </div></main>
 }
@@ -53,7 +64,18 @@ function DressCode() { return <section className="dress section-frame"><SectionT
 
 function Timeline() { return <section className="timeline section-frame"><SectionTitle title="برنامج اليوم" /><div className="timeline-list">{[["17:30", "استقبال الضيوف"], ["18:30", "بدء الحفل"], ["18:45", "نخب وقطع الكعكة"], ["19:00", "العشاء الرئيسي"], ["21:00", "ختام الحفل"]].map(([time, title]) => <div key={time}><time>{time}</time><i /><span>{title}</span></div>)}</div></section> }
 
-function Guestbook({ message, setMessage, sent, onSend }: { message: string, setMessage: (v: string) => void, sent: boolean, onSend: () => void }) { return <section className="guestbook section-frame"><SectionTitle title="سجل التهاني" /><div className="guest-form"><input aria-label="اسمك" placeholder="أدخل اسمك *" /><textarea aria-label="تهنئتك" placeholder="اكتب تهنئتك *" value={message} onChange={(e) => setMessage(e.target.value)} /><button className="gold-button" onClick={onSend}><Send size={15} /> إرسال التهنئة</button>{sent && <p className="success">تم إرسال تهنئتك بكل محبة.</p>}</div><div className="guest-list">{guests.map((guest) => <article key={guest.name}><b>{guest.name}</b><small>2026/7/13 · 12:17 م</small><p>{guest.note}</p></article>)}</div></section> }
+function Guestbook({ name, setName, message, setMessage, sent, onSend }: { name: string, setName: (v: string) => void, message: string, setMessage: (v: string) => void, sent: boolean, onSend: () => void }) {
+  const { data: remoteGuests, mutate } = useSWR("wedding_guestbook", async () => {
+    const client = getSupabase()
+    if (!client) return []
+    const { data, error } = await client.from("wedding_guestbook").select("id, name, message, created_at").order("created_at", { ascending: false }).limit(20)
+    if (error) throw error
+    return data ?? []
+  })
+  const entries = remoteGuests?.map((guest) => ({ name: guest.name, note: guest.message, date: new Date(guest.created_at).toLocaleDateString("ar-EG") })) ?? guests.map((guest) => ({ ...guest, date: "" }))
+  const submit = async () => { await onSend(); await mutate() }
+  return <section className="guestbook section-frame"><SectionTitle title="سجل التهاني" /><div className="guest-form"><input aria-label="اسمك" placeholder="أدخل اسمك *" value={name} onChange={(e) => setName(e.target.value)} /><textarea aria-label="تهنئتك" placeholder="اكتب تهنئتك *" value={message} onChange={(e) => setMessage(e.target.value)} /><button className="gold-button" onClick={submit}><Send size={15} /> إرسال التهنئة</button>{sent && <p className="success">تم إرسال تهنئتك بكل محبة.</p>}</div><div className="guest-list">{entries.map((guest) => <article key={`${guest.name}-${guest.note}`}><b>{guest.name}</b><small>{guest.date || "تهنئة من القلب"}</small><p>{guest.note}</p></article>)}</div></section>
+}
 
 function GiftSection() { return <section className="gift section-frame"><SectionTitle title="صندوق الهدية" /><div className="gift-box"><Gift size={62} strokeWidth={1} /><span>اضغط للفتح</span></div><p>شكراً لحضوركم، وجودكم هو أجمل هدية لنا.</p></section> }
 
