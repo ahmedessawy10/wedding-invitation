@@ -1,0 +1,35 @@
+{
+  "name": "v0-project",
+  "version": "1.0.0",
+  "description": "\"# wedding-invitation\"",
+  "main": "index.js",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ahmedessawy10/wedding-invitation.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/ahmedessawy10/wedding-invitation/issues"
+  },
+  "homepage": "https://github.com/ahmedessawy10/wedding-invitation#readme",
+  "dependencies": {
+    "lucide-react": "^1.45.0",
+    "next": "^16.3.5",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0"
+  },
+  "devDependencies": {
+    "@types/node": "22.20.2",
+    "@types/react": "19.3.0",
+    "typescript": "7.0.2"
+  }
+}
