@@ -10,44 +10,34 @@ const guests = [
 ]
 
 export default function Home() {
-  const [opened, setOpened] = useState(false)
+  return <main className="min-h-screen overflow-hidden bg-[#b78243] text-[#7f572d]"><OpeningScreen /></main>
+}
+
+export function InvitationContent() {
   const [muted, setMuted] = useState(true)
   const [message, setMessage] = useState("")
   const [sent, setSent] = useState(false)
 
-  return (
-    <main className="min-h-screen overflow-hidden bg-[#b78243] text-[#7f572d]">
-      {!opened && <OpeningScreen onOpen={() => setOpened(true)} />}
-      {opened && (
-        <div className="invite-shell animate-reveal">
-          <button aria-label={muted ? "تشغيل الموسيقى" : "إيقاف الموسيقى"} className="sound-button" onClick={() => setMuted(!muted)}>
-            {muted ? <VolumeX size={18} /> : <Volume2 size={18} />}
-          </button>
-          <Hero />
-          <Couple />
-          <EventDetails />
-          <Gallery />
-          <Venue />
-          <DressCode />
-          <Timeline />
-          <Guestbook message={message} setMessage={setMessage} sent={sent} onSend={() => { if (message.trim()) setSent(true) }} />
-          <GiftSection />
-          <footer className="footer">صُنع بحب من أجل يوم لا يُنسى <Heart size={13} fill="currentColor" /></footer>
-        </div>
-      )}
-    </main>
-  )
+  return <main className="min-h-screen overflow-hidden bg-[#b78243] text-[#7f572d]"><div className="invite-shell animate-reveal">
+    <button aria-label={muted ? "تشغيل الموسيقى" : "إيقاف الموسيقى"} className="sound-button" onClick={() => setMuted(!muted)}>
+      {muted ? <VolumeX size={18} /> : <Volume2 size={18} />}
+    </button>
+    <Hero /><Couple /><EventDetails /><Gallery /><Venue /><DressCode /><Timeline />
+    <Guestbook message={message} setMessage={setMessage} sent={sent} onSend={() => { if (message.trim()) setSent(true) }} />
+    <GiftSection /><footer className="footer">صُنع بحب من أجل يوم لا يُنسى <Heart size={13} fill="currentColor" /></footer>
+  </div></main>
 }
 
-function OpeningScreen({ onOpen }: { onOpen: () => void }) {
+function OpeningScreen() {
   return <section className="opening-screen"><div className="opening-card">
     <span className="corner-flower top-left" /><span className="corner-flower bottom-right" />
     <div className="seal"><Heart size={29} fill="white" strokeWidth={0} /></div>
     <p className="opening-kicker">دعوة زفاف</p><h1>فهد <span>&</span> لؤلؤة</h1><div className="ornament-line"><i /> ❦ <i /></div>
     <p className="opening-date">30 أبريل 2027</p><p className="opening-sub">بدعوة كريمة نشارككم فرحتنا</p>
-    <button className="gold-button open-button" onClick={onOpen}>فتح الدعوة</button>
+    <a className="gold-button open-button" href="/invitation">فتح الدعوة</a>
   </div></section>
 }
+
 
 function Hero() { return <section className="hero section-frame"><p className="eyebrow">WELCOME TO OUR WEDDING</p><div className="hero-frame"><div className="flourish">❧</div><h1>فهد <small>&</small> لؤلؤة</h1><p>بسم الله الرحمن الرحيم</p><div className="flourish">❧</div></div><p className="hero-welcome">يسعدنا أن نشارككم أجمل لحظاتنا</p></section> }
 
