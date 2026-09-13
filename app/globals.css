@@ -163,6 +163,11 @@ h1, h2, h3, h4, p { margin: 0; }
 
 @media (min-width: 768px) { .card-section { max-width: 560px; } }
 
+.card-section--light .card-bg { background: var(--paper); }
+.card-section--light .card-paper { opacity: .18; }
+.card-section--light .card-body { color: var(--burgundy); }
+.card-section--light .card-title { color: var(--burgundy); }
+
 .families { display: flex; align-items: stretch; justify-content: center; gap: 32px; text-align: center; }
 .families > div { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
 .families > i { width: 1px; align-self: stretch; background: rgba(236,228,216,.4); }
@@ -277,6 +282,12 @@ h1, h2, h3, h4, p { margin: 0; }
 .schedule-dot i.no-top { top: 50%; } .schedule-dot i.no-bottom { bottom: 50%; }
 .schedule-dot b { position: relative; display: block; width: 10px; height: 10px; border-radius: 999px; background: var(--cream); box-shadow: 0 0 0 3px rgba(236,228,216,.15); }
 .schedule-text { font-size: 13px; color: rgba(236,228,216,.75); text-align: left; }
+
+.card-section--light .schedule-time,
+.card-section--light .schedule-text { color: var(--burgundy); }
+.card-section--light .schedule-text { opacity: .75; }
+.card-section--light .schedule-dot i { background: var(--line); }
+.card-section--light .schedule-dot b { background: var(--burgundy); box-shadow: 0 0 0 3px rgba(81,20,25,.15); }
 
 /* ---------- سجل التهاني ---------- */
 .guestbook { position: relative; z-index: 10; padding: 24px 24px 32px; }

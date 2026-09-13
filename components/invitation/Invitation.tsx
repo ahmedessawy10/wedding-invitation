@@ -65,8 +65,9 @@ export function Invitation() {
         <Header />
         <CeremonyCard />
         {/* <Gallery /> */}
-        <ReceptionCard />
         <Schedule />
+        <ReceptionCard />
+        
         <Venues />
         {/* <DressCode /> */}
        

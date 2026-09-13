@@ -15,7 +15,7 @@ import { Card, CardTitle } from "./Card"
 
 export function Schedule() {
   return (
-    <Card flower={{ side: "right", top: "-12%", width: "30%", duration: "5.2s", delay: ".9s" }}>
+    <Card className="card-section--light" flower={{ side: "right", top: "-12%", width: "30%", duration: "5.2s", delay: ".9s" }}>
       <CardTitle>برنامج </CardTitle>
       <ol className="schedule-list">
         {schedule.map((item, i) => (
