@@ -37,7 +37,7 @@ export function Invitation() {
         <DressCode />
         <Schedule />
         <Guestbook />
-        <GiftBox />
+        {/* <GiftBox /> */}
 
         <footer className="footer">
           صُنع بحب من أجل يوم {couple.groom.short} و{couple.bride.short} <Heart size={13} fill="currentColor" />
