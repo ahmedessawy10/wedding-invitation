@@ -61,7 +61,7 @@ export const events: Record<WeddingEvent["key"], WeddingEvent> = {
   },
   ishhar: {
     key: "ishhar",
-    title: "حفل الإشهار",
+    title: " الإشهار",
     day: "الجمعة",
     dayNumber: 18,
     monthName: "سبتمبر",

@@ -223,7 +223,7 @@ h1, h2, h3, h4, p { margin: 0; }
 
 .btn-cream { border: 0; border-radius: 999px; padding: 10px 28px; font-size: 14px; letter-spacing: .04em; background: var(--cream); color: var(--burgundy); box-shadow: 0 4px 10px rgba(0,0,0,.15); transition: transform .2s; }
 .btn-cream:hover { transform: translateY(-1px); }
-.btn-burgundy { border: 0; border-radius: 999px; padding: 12px 28px; font-size: 14px; font-weight: 600; background: var(--burgundy); color: var(--cream); transition: transform .2s; }
+.btn-burgundy { border: 0; border-radius: 999px; padding: 12px 28px; font-size: 14px; font-weight: 700; background: var(--burgundy); color: var(--cream); transition: transform .2s; }
 .btn-burgundy:hover { transform: translateY(-1px); }
 .btn-burgundy:disabled { opacity: .6; cursor: not-allowed; }
 
@@ -334,12 +334,13 @@ h1, h2, h3, h4, p { margin: 0; }
 .modal-head button { position: absolute; left: 12px; top: 12px; width: 32px; height: 32px; border-radius: 999px; border: 0; background: rgba(255,255,255,.15); color: #fff; display: flex; align-items: center; justify-content: center; }
 .modal-content { padding: 24px; }
 .rsvp-form { display: flex; flex-direction: column; gap: 14px; }
-.rsvp-form input, .rsvp-guests select { padding: 12px 14px; border: 1px solid var(--line); border-radius: 10px; background: transparent; color: var(--burgundy); }
+.rsvp-form input, .rsvp-guests select { padding: 12px 14px; border: 1px solid var(--line); border-radius: 10px; background: transparent; color: var(--burgundy); font-weight: 600; }
+.rsvp-form input::placeholder { color: var(--burgundy); opacity: .65; font-weight: 600; }
 .rsvp-row { display: flex; flex-direction: column; gap: 8px; }
-.rsvp-row label { display: flex; align-items: center; gap: 8px; font-size: 14px; padding: 10px 14px; border: 1px solid var(--line); border-radius: 10px; }
-.rsvp-row label.is-on { border-color: var(--burgundy); background: rgba(81,20,25,.06); }
-.rsvp-guests { display: flex; align-items: center; justify-content: space-between; font-size: 14px; }
-.rsvp-done { text-align: center; font-size: 15px; color: var(--burgundy); padding: 12px 0; }
+.rsvp-row label { display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 600; color: var(--burgundy); padding: 10px 14px; border: 1px solid var(--line); border-radius: 10px; }
+.rsvp-row label.is-on { border-color: var(--burgundy); background: rgba(81,20,25,.1); font-weight: 700; color: var(--burgundy-dark); }
+.rsvp-guests { display: flex; align-items: center; justify-content: space-between; font-size: 14px; font-weight: 600; color: var(--burgundy); }
+.rsvp-done { text-align: center; font-size: 15px; font-weight: 600; color: var(--burgundy); padding: 12px 0; }
 .form-error { color: #a8323b; font-size: 13px; text-align: center; }
 
 /* ---------- تسجيل الدخول ---------- */

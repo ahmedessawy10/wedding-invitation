@@ -10,9 +10,9 @@ export function ReceptionCard() {
   const e = events.ishhar
   return (
     <Card flower={{ side: "left", top: "10%", width: "32%", duration: "6s", delay: ".3s" }}>
-      <CardTitle>معلومات حفل الإشهار</CardTitle>
+      <CardTitle>  الإشهار</CardTitle>
       <div className="reception-body">
-        <h3>سيُقام حفل الإشهار في:</h3>
+        <h3>سيُقام  الإشهار في:</h3>
         <div className="event-time"><span>{e.day}</span><span>{e.timeLabel}</span></div>
         <BigDate day={e.dayNumber} month={e.monthName} year={e.year} size="md" />
         <Countdown />
@@ -20,7 +20,7 @@ export function ReceptionCard() {
         <a className="add-calendar" href={googleCalendarUrl()} target="_blank" rel="noreferrer">
           <CalendarDays size={16} /> إضافة إلى التقويم
         </a>
-        <Rsvp />
+        {/* <Rsvp /> */}
       </div>
     </Card>
   )
