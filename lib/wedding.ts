@@ -8,7 +8,7 @@ export const theme = {
 }
 
 export const couple = {
-  groom: { title: "مهندس", name: "مصعب بدر أحمد عبد الدايم", short: "مصعب" },
+  groom: { title: "مهندس", name: "مصعب بدر عبد الدايم", short: "مصعب" },
   bride: { title: "الآنسة", name: "أمل", short: "أمل", degree: "بكالوريوس تمريض" },
 }
 
@@ -67,8 +67,8 @@ export const events: Record<WeddingEvent["key"], WeddingEvent> = {
     monthName: "سبتمبر",
     year: 2026,
     timeLabel: "بعد صلاة المغرب",
-    venue: "مسجد الشيخ خلف",
-    address: "مسجد الشيخ خلف",
+    venue: "مكان الاشهار ",
+    address: "مسجد الشيخ خلف- ميت حبيش",
     mapsLink: "https://maps.app.goo.gl/Kkc6kbqXTsDytScD6",
     lat: 30.7770316,
     lng: 31.0200498,
@@ -83,9 +83,9 @@ export const calendarMonth = { year: 2026, month: 8, label: "سبتمبر ٢٠٢
 
 export const schedule = [
   { time: "16 / 9", text: "حفل الحنّة — الأربعاء", icon: "" },
-  { time: "18 / 9", text: "صلاة المغرب — الجمعة", icon: "/theme/camera.webp" },
+  { time: "18 / 9", text: "بعد صلاة المغرب -الجمعة", icon: "/theme/camera.webp" },
   { time: "بعدها", text: "عقد القران والإشهار بمسجد الشيخ خلف", icon: "/theme/cake.webp" },
-  { time: "ثم", text: "استقبال المهنئين", icon: "/theme/cook.webp" },
+  { time: "ثم", text: "الزفة", icon: "/theme/cook.webp" },
   { time: "الختام", text: "شكرًا لحضوركم ومشاركتكم فرحتنا", icon: "" },
 ]
 

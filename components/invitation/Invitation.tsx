@@ -6,7 +6,7 @@ import { Header } from "./Header"
 import { CeremonyCard } from "./CeremonyCard"
 import { Gallery } from "./Gallery"
 import { ReceptionCard, Venues } from "./Venue"
-import { DressCode, Schedule } from "./DressSchedule"
+import {  Schedule } from "./DressSchedule"
 import { Guestbook } from "./Guestbook"
 import { GiftBox } from "./GiftBox"
 import { couple } from "../../lib/wedding"
@@ -31,10 +31,10 @@ export function Invitation() {
 
         <Header />
         <CeremonyCard />
-        <Gallery />
+        {/* <Gallery /> */}
         <ReceptionCard />
         <Venues />
-        <DressCode />
+        {/* <DressCode /> */}
         <Schedule />
         <Guestbook />
         {/* <GiftBox /> */}

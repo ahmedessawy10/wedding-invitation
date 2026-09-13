@@ -1,22 +1,22 @@
 import { dressCode, schedule } from "../../lib/wedding"
 import { Card, CardTitle } from "./Card"
 
-export function DressCode() {
-  return (
-    <div className="dress-section">
-      <h2>قواعد اللباس</h2>
-      <p>{dressCode.text}</p>
-      <div className="swatches">
-        {dressCode.colors.map((c) => <i key={c} style={{ background: c, border: c === "#F3E8DE" ? "1.5px solid rgba(81,20,25,.19)" : "none" }} />)}
-      </div>
-    </div>
-  )
-}
+// export function DressCode() {
+//   return (
+//     <div className="dress-section">
+//       <h2>قواعد اللباس</h2>
+//       <p>{dressCode.text}</p>
+//       <div className="swatches">
+//         {dressCode.colors.map((c) => <i key={c} style={{ background: c, border: c === "#F3E8DE" ? "1.5px solid rgba(81,20,25,.19)" : "none" }} />)}
+//       </div>
+//     </div>
+//   )
+// }
 
 export function Schedule() {
   return (
     <Card flower={{ side: "right", top: "-12%", width: "30%", duration: "5.2s", delay: ".9s" }}>
-      <CardTitle>برنامج يوم الفرح</CardTitle>
+      <CardTitle>برنامج </CardTitle>
       <ol className="schedule-list">
         {schedule.map((item, i) => (
           <li key={i}>
