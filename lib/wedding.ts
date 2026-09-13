@@ -98,13 +98,19 @@ export const dressCode = {
 export const gallery = ["/gallery/1.svg", "/gallery/2.svg", "/gallery/3.svg", "/gallery/4.svg", "/gallery/5.svg"]
 
 // صورة المغلف في أعلى الدعوة
-export const heroPhoto = "/gallery/1.svg"
+export const heroPhoto = "/gallery/image.png"
 
 // وسائل إرسال الهدية — عدّل الأرقام هنا (اتركها فارغة لإخفاء البطاقة)
 export const gifts = [
   { label: "فودافون كاش", value: "", note: "حوّل عبر تطبيق فودافون كاش" },
   { label: "إنستاباي", value: "", note: "حوّل عبر تطبيق InstaPay" },
 ]
+
+// رقم واتساب للتواصل — استبدله برقم حقيقي بصيغة دولية (بدون + أو صفر بالبداية) قبل مشاركة الدعوة
+export const whatsapp = {
+  phone: "201021213148", // TODO: رقم مؤقت، عدّله قبل النشر
+  message: `مرحبًا، بخصوص دعوة زفاف ${couple.groom.short} و${couple.bride.short}`,
+}
 
 export const messages = {
   saveTheDate: "Save The Date",
