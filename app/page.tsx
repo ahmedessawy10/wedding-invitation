@@ -1,82 +1,52 @@
-"use client"
+import Link from "next/link"
+import { couple, mainDateLabel, messages } from "../lib/wedding"
 
-import { useState } from "react"
-import useSWR from "swr"
-import { CalendarDays, ChevronDown, ChevronLeft, ChevronRight, Gift, Heart, MapPin, Music2, Send, Volume2, VolumeX } from "lucide-react"
-import { getSupabase } from "../lib/supabase/client"
+const HEART = "M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"
 
-const guests = [
-  { name: "نورة السالم", note: "ربينا يتم لكم على خير ويسعد قلوبكم." },
-  { name: "مريم الشعري", note: "أجمل التهاني بمناسبة الزفاف، دام لكم الود والوئام." },
-  { name: "عمر الغنيمي", note: "كل عام وأنتم بخير وسعادة، مبارك عليكما." },
-]
+// قيم ثابتة حتى يتطابق تصيير الخادم مع المتصفح
+const hearts = [
+  [81, "#c9a24a", 16, 5, 23, -3.5], [65, "#ece4d8", 23, -3, 20.7, -15.9], [14.6, "#c9a24a", 23, 1.5, 25, -12.4],
+  [31, "#c9a24a", 18, 10.4, 21.8, -10.9], [31.4, "#ece4d8", 11, -4.2, 23, -7.6], [78, "#ece4d8", 18.5, -14.9, 19.5, -0.8],
+  [33.7, "#7a1f26", 16, -14.3, 25, -12.7], [51, "#ece4d8", 12.8, 5.3, 22.8, -11.2], [65.3, "#a8323b", 15, 1.6, 18.8, -5.7],
+  [14.6, "#7a1f26", 17, -5.4, 24, -21.5], [34.9, "#c9a24a", 14.5, -29.5, 18.9, -8.5], [15.5, "#a8323b", 11, 7.7, 23.6, -1.6],
+] as const
 
-export default function Home() {
-  return <main className="min-h-screen overflow-hidden bg-[#b78243] text-[#7f572d]"><OpeningScreen /></main>
+export default function EnvelopePage() {
+  return (
+    <div className="envelope-screen">
+      <div className="ambient" aria-hidden="true">
+        {hearts.map(([left, color, size, sway, dur, delay], i) => (
+          <div key={i} className="ambient-heart" style={{ left: `${left}%`, color, fontSize: size, ["--sway" as string]: `${sway}px`, animation: `ambient-fall ${dur}s ease-in-out ${delay}s infinite` }}>
+            <svg viewBox="0 0 24 24" fill="currentColor" width="1em" height="1em"><path d={HEART} /></svg>
+          </div>
+        ))}
+      </div>
+
+      <div className="envelope-card-wrap">
+        <div className="envelope-seal" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path d={HEART} /></svg>
+        </div>
+        <div className="envelope-card">
+          <div className="envelope-card-bg" aria-hidden="true">
+            <img src="/theme/flower2-decoration.webp" alt="" className="envelope-flower envelope-flower-tl" />
+            <img src="/theme/flower2-decoration.webp" alt="" className="envelope-flower envelope-flower-br" />
+          </div>
+          <div className="envelope-card-body">
+            <h1 className="envelope-names">
+              <span>{couple.groom.short}</span>
+              <span className="envelope-amp">&amp;</span>
+              <span>{couple.bride.short}</span>
+            </h1>
+            <div className="envelope-divider" aria-hidden="true"><i /><span>❦</span><i /></div>
+            <p className="envelope-date">{mainDateLabel}</p>
+            <p className="envelope-invites">{messages.invites}</p>
+            <Link href="/invitation" className="envelope-open">
+              <span>فتح الدعوة</span>
+              <i className="envelope-shine" aria-hidden="true" />
+            </Link>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
 }
-
-export function InvitationContent() {
-  const [muted, setMuted] = useState(true)
-  const [message, setMessage] = useState("")
-  const [name, setName] = useState("")
-  const [sent, setSent] = useState(false)
-
-  return <main className="min-h-screen overflow-hidden bg-[#b78243] text-[#7f572d]"><div className="invite-shell animate-reveal">
-    <button aria-label={muted ? "تشغيل الموسيقى" : "إيقاف الموسيقى"} className="sound-button" onClick={() => setMuted(!muted)}>
-      {muted ? <VolumeX size={18} /> : <Volume2 size={18} />}
-    </button>
-    <Hero /><Couple /><EventDetails /><Gallery /><Venue /><DressCode /><Timeline />
-    <Guestbook name={name} setName={setName} message={message} setMessage={setMessage} sent={sent} onSend={async () => {
-      const cleanName = name.trim()
-      const cleanMessage = message.trim()
-      if (!cleanName || !cleanMessage) return
-      const client = getSupabase()
-      if (!client) return
-      const { error } = await client.from("wedding_guestbook").insert({ name: cleanName, message: cleanMessage })
-      if (!error) { setSent(true); setName(""); setMessage("") }
-    }} />
-    <GiftSection /><footer className="footer">صُنع بحب من أجل يوم لا يُنسى <Heart size={13} fill="currentColor" /></footer>
-  </div></main>
-}
-
-function OpeningScreen() {
-  return <section className="opening-screen"><div className="opening-card">
-    <span className="corner-flower top-left" /><span className="corner-flower bottom-right" />
-    <div className="seal"><Heart size={29} fill="white" strokeWidth={0} /></div>
-    <p className="opening-kicker">دعوة زفاف</p><h1>فهد <span>&</span> لؤلؤة</h1><div className="ornament-line"><i /> ❦ <i /></div>
-    <p className="opening-date">30 أبريل 2027</p><p className="opening-sub">بدعوة كريمة نشارككم فرحتنا</p>
-    <a className="gold-button open-button" href="/invitation">فتح الدعوة</a>
-  </div></section>
-}
-
-
-function Hero() { return <section className="hero section-frame"><p className="eyebrow">WELCOME TO OUR WEDDING</p><div className="hero-frame"><div className="flourish">❧</div><h1>فهد <small>&</small> لؤلؤة</h1><p>بسم الله الرحمن الرحيم</p><div className="flourish">❧</div></div><p className="hero-welcome">يسعدنا أن نشارككم أجمل لحظاتنا</p></section> }
-
-function Couple() { return <section className="couple section-frame"><SectionTitle title="بكل حب ندعوكم" /><p className="intro">لحضور حفل زفافنا ومشاركتنا بداية فصل جديد من حكايتنا</p><div className="couple-names"><div><span>العريس</span><h2>فهد بن مشعل</h2></div><b>&</b><div><span>العروس</span><h2>لؤلؤة بنت جاسم</h2></div></div></section> }
-
-function EventDetails() { return <section className="details section-frame"><SectionTitle title="معلومات الحفل" /><div className="detail-grid"><div><CalendarDays /><span>التاريخ</span><strong>الجمعة<br />30 أبريل 2027</strong></div><div><Music2 /><span>الوقت</span><strong>استقبال الضيوف 19:30<br />بداية الحفل 20:00</strong></div><div><MapPin /><span>المكان</span><strong>فندق جميرا<br />شاطئ المسيلة، الكويت</strong></div></div><div className="countdown"><p>باقي على فرحتنا</p><div><b>229</b><span>يوم</span><b>20</b><span>ساعة</span><b>36</b><span>دقيقة</span></div></div></section> }
-
-function Gallery() { return <section className="gallery section-frame"><SectionTitle title="من أجمل ذكرياتنا" /><div className="gallery-grid"><img src="/images/wedding-reference.jpeg" alt="تصميم دعوة الزفاف" /><div className="gallery-note"><span>Our story</span><h2>لحظاتنا<br />الأجمل</h2><p>كل صورة تحكي جزءاً من الحكاية التي نعيشها معاً.</p><button aria-label="الصورة التالية" className="circle-button"><ChevronLeft size={20} /></button></div></div></section> }
-
-function Venue() { return <section className="venue section-frame"><SectionTitle title="مكان حفل الاستقبال" /><p>فندق جميرا شاطئ المسيلة الكويت</p><div className="map-card"><div className="map-roads"><span /><span /><span /><span /><MapPin size={43} fill="#b87836" color="#fff" /></div></div><a className="directions" href="https://maps.google.com" target="_blank" rel="noreferrer">الحصول على الاتجاهات <ChevronLeft size={16} /></a></section> }
-
-function DressCode() { return <section className="dress section-frame"><SectionTitle title="قواعد اللباس" /><p>ملابس الحفل</p><div className="swatches"><i /><i /><i /></div></section> }
-
-function Timeline() { return <section className="timeline section-frame"><SectionTitle title="برنامج اليوم" /><div className="timeline-list">{[["17:30", "استقبال الضيوف"], ["18:30", "بدء الحفل"], ["18:45", "نخب وقطع الكعكة"], ["19:00", "العشاء الرئيسي"], ["21:00", "ختام الحفل"]].map(([time, title]) => <div key={time}><time>{time}</time><i /><span>{title}</span></div>)}</div></section> }
-
-function Guestbook({ name, setName, message, setMessage, sent, onSend }: { name: string, setName: (v: string) => void, message: string, setMessage: (v: string) => void, sent: boolean, onSend: () => void }) {
-  const { data: remoteGuests, mutate } = useSWR("wedding_guestbook", async () => {
-    const client = getSupabase()
-    if (!client) return []
-    const { data, error } = await client.from("wedding_guestbook").select("id, name, message, created_at").order("created_at", { ascending: false }).limit(20)
-    if (error) throw error
-    return data ?? []
-  })
-  const entries = remoteGuests?.map((guest) => ({ name: guest.name, note: guest.message, date: new Date(guest.created_at).toLocaleDateString("ar-EG") })) ?? guests.map((guest) => ({ ...guest, date: "" }))
-  const submit = async () => { await onSend(); await mutate() }
-  return <section className="guestbook section-frame"><SectionTitle title="سجل التهاني" /><div className="guest-form"><input aria-label="اسمك" placeholder="أدخل اسمك *" value={name} onChange={(e) => setName(e.target.value)} /><textarea aria-label="تهنئتك" placeholder="اكتب تهنئتك *" value={message} onChange={(e) => setMessage(e.target.value)} /><button className="gold-button" onClick={submit}><Send size={15} /> إرسال التهنئة</button>{sent && <p className="success">تم إرسال تهنئتك بكل محبة.</p>}</div><div className="guest-list">{entries.map((guest) => <article key={`${guest.name}-${guest.note}`}><b>{guest.name}</b><small>{guest.date || "تهنئة من القلب"}</small><p>{guest.note}</p></article>)}</div></section>
-}
-
-function GiftSection() { return <section className="gift section-frame"><SectionTitle title="صندوق الهدية" /><div className="gift-box"><Gift size={62} strokeWidth={1} /><span>اضغط للفتح</span></div><p>شكراً لحضوركم، وجودكم هو أجمل هدية لنا.</p></section> }
-
-function SectionTitle({ title }: { title: string }) { return <div className="section-title"><span>✧</span><h2>{title}</h2><span>✧</span></div> }

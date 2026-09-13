@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 900" width="600" height="900">
+  <defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#6e1a20"/><stop offset="1" stop-color="#380a0e"/></linearGradient></defs>
+  <rect width="600" height="900" fill="url(#g)"/>
+  <rect x="36" y="36" width="528" height="828" fill="none" stroke="#c9a24a" stroke-opacity=".6" stroke-width="2" rx="14"/>
+  <path d="M300 540l-58-53c-38-35-62-58-62-88 0-24 19-43 43-43 14 0 27 6 36 17l41 41 41-41c9-11 22-17 36-17 24 0 43 19 43 43 0 30-24 53-62 88z" fill="#ece4d8" fill-opacity=".85"/>
+  <text x="300" y="640" text-anchor="middle" font-family="serif" font-size="46" fill="#ece4d8">مصعب &amp; أمل</text>
+  <text x="300" y="700" text-anchor="middle" font-family="serif" font-size="26" fill="#c9a24a">صورة 3</text>
+</svg>
