@@ -25,9 +25,9 @@ export function Header() {
       </div>
 
       <div className="hero-names">
-        <p>{couple.groom.short}</p>
+        <p>M</p>
         <span aria-hidden="true" className="hero-amp">&amp;</span>
-        <p>{couple.bride.short}</p>
+        <p>A</p>
       </div>
     </header>
   )
