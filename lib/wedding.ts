@@ -9,7 +9,7 @@ export const theme = {
 
 export const couple = {
   groom: { title: "مهندس", name: "مصعب بدر عبد الدايم", short: "MOSAB" },
-  bride: { title: "الآنسة", name: "أمل", short: "AMAL", degree: "بكالوريوس تمريض" },
+  bride: { title: "الآنسة", name: "أمل", short: "AML", degree: "بكالوريوس تمريض" },
 }
 
 export const families = {
