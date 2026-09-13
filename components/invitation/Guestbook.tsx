@@ -1,10 +1,12 @@
 "use client"
 
-import { useState } from "react"
+import { useState, type FormEvent } from "react"
 import useSWR from "swr"
-import { Send } from "lucide-react"
+import { Send, Lock, Unlock } from "lucide-react"
 import { getSupabase } from "../../lib/supabase/client"
 import { SectionTitle } from "./Card"
+
+const GUESTBOOK_PASSWORD = "mosab2026"
 
 const seedGuests = [
   { name: "نورة السالم", note: "ربنا يتمم لكما على خير ويسعد قلوبكما." },
@@ -17,6 +19,10 @@ export function Guestbook() {
   const [message, setMessage] = useState("")
   const [sent, setSent] = useState(false)
   const [sending, setSending] = useState(false)
+  const [unlocked, setUnlocked] = useState(false)
+  const [showPasswordForm, setShowPasswordForm] = useState(false)
+  const [password, setPassword] = useState("")
+  const [passwordError, setPasswordError] = useState(false)
 
   const { data: remoteGuests, mutate } = useSWR("wedding_guestbook", async () => {
     const client = getSupabase()
@@ -52,6 +58,18 @@ export function Guestbook() {
     setSending(false)
   }
 
+  const checkPassword = (e: FormEvent) => {
+    e.preventDefault()
+    if (password === GUESTBOOK_PASSWORD) {
+      setUnlocked(true)
+      setShowPasswordForm(false)
+      setPasswordError(false)
+      setPassword("")
+    } else {
+      setPasswordError(true)
+    }
+  }
+
   return (
     <section className="guestbook">
       <SectionTitle>سجل التهاني</SectionTitle>
@@ -63,15 +81,47 @@ export function Guestbook() {
         </button>
         {sent && <p className="success">تم إرسال تهنئتك بكل محبة.</p>}
       </form>
-      <div className="guest-list">
-        {entries.map((guest) => (
-          <article key={`${guest.name}-${guest.note}`}>
-            <b>{guest.name}</b>
-            <small>{guest.date || "تهنئة من القلب"}</small>
-            <p>{guest.note}</p>
-          </article>
-        ))}
-      </div>
+      {unlocked ? (
+        <div className="guest-list">
+          {entries.map((guest) => (
+            <article key={`${guest.name}-${guest.note}`}>
+              <b>{guest.name}</b>
+              <small>{guest.date || "تهنئة من القلب"}</small>
+              <p>{guest.note}</p>
+            </article>
+          ))}
+        </div>
+      ) : (
+        <div className="guest-lock">
+          {!showPasswordForm ? (
+            <button
+              type="button"
+              className="btn-burgundy"
+              onClick={() => setShowPasswordForm(true)}
+            >
+              <Lock size={15} /> عرض التهاني
+            </button>
+          ) : (
+            <form
+              className="guest-unlock-form"
+              onSubmit={checkPassword}
+            >
+              <input
+                type="password"
+                aria-label="كلمة المرور"
+                placeholder="أدخل كلمة المرور"
+                value={password}
+                onChange={(e) => { setPassword(e.target.value); setPasswordError(false) }}
+                autoFocus
+              />
+              <button type="submit" className="btn-burgundy">
+                <Unlock size={15} /> فتح
+              </button>
+              {passwordError && <p className="error">كلمة المرور غير صحيحة</p>}
+            </form>
+          )}
+        </div>
+      )}
     </section>
   )
 }
