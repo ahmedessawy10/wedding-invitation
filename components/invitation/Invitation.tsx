@@ -1,7 +1,7 @@
 "use client"
 
-import { useState } from "react"
-import { Heart, Volume2, VolumeX } from "lucide-react"
+import { useEffect, useRef, useState } from "react"
+import { Heart } from "lucide-react"
 import { Header } from "./Header"
 import { CeremonyCard } from "./CeremonyCard"
 import { Gallery } from "./Gallery"
@@ -12,21 +12,41 @@ import { GiftBox } from "./GiftBox"
 import { couple } from "../../lib/wedding"
 
 export function Invitation() {
-  const [muted, setMuted] = useState(true)
+  const audioRef = useRef<HTMLAudioElement>(null)
+  const [playing, setPlaying] = useState(false)
+
+  useEffect(() => {
+    audioRef.current?.play().then(() => setPlaying(true)).catch(() => setPlaying(false))
+  }, [])
+
+  function toggleMusic() {
+    const audio = audioRef.current
+    if (!audio) return
+    if (playing) {
+      audio.pause()
+      setPlaying(false)
+    } else {
+      audio.play().then(() => setPlaying(true)).catch(() => {})
+    }
+  }
 
   return (
     <main className="invitation-page">
       <div className="invite-shell animate-reveal">
-        {/* ضع ملف الموسيقى في public/audio/wedding-song.mp3 لتفعيل الصوت */}
-        <audio loop muted={muted} style={{ display: "none" }}>
+        <audio ref={audioRef} loop style={{ display: "none" }}>
           <source src="/audio/wedding-song.mp3" type="audio/mpeg" />
         </audio>
         <button
-          aria-label={muted ? "تشغيل الموسيقى" : "إيقاف الموسيقى"}
-          className="sound-button"
-          onClick={() => setMuted((m) => !m)}
+          aria-label={playing ? "إيقاف الموسيقى" : "تشغيل الموسيقى"}
+          className={`floating-music-btn ${playing ? "playing" : ""}`}
+          onClick={toggleMusic}
         >
-          {muted ? <VolumeX size={18} /> : <Volume2 size={18} />}
+          <span className="equalizer-bars">
+            <span className="bar bar-1" />
+            <span className="bar bar-2" />
+            <span className="bar bar-3" />
+            <span className="bar bar-4" />
+          </span>
         </button>
 
         <Header />
