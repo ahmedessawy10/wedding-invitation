@@ -33,9 +33,9 @@ export default function EnvelopePage() {
           </div>
           <div className="envelope-card-body">
             <h1 className="envelope-names">
-              <span>M</span>
+              <span>{couple.groom.short}</span>
               <span className="envelope-amp">&amp;</span>
-              <span>A</span>
+              <span>{couple.bride.short}</span>
             </h1>
             <div className="envelope-divider" aria-hidden="true"><i /><span>❦</span><i /></div>
             <p className="envelope-date">{mainDateLabel}</p>
